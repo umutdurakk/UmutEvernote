@@ -1,0 +1,86 @@
+﻿@using MyEvernote.Entities.ValueObjects
+@model LoginViewModel
+<div class="bg-image"
+     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+            height: 100vh">
+    @{
+        ViewBag.Title = "Giriş";
+        Layout = null;
+
+    }
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Login-Register.css" rel="stylesheet" />
+
+    <link href="~/Content/loginform.css" rel="stylesheet" />
+    
+        <style>
+            .form-header {
+                
+                background-color: rgba(200, 0 ,0,0.45);
+               
+            }
+            .main-content {
+                background-color: rgba(247,247,247,0.55);
+                border: 2px solid rgba(200, 0,0,0.45);
+            }
+            .input-group-addon {
+                color: rgba(200, 0,0,0.45);
+                font-size: 17px;
+                
+            }
+            .btn-default {
+                color: rgba(200, 0,0,0.65);
+            }
+            .btn-danger {
+                background-color: rgba(200, 0,0,0.65);;
+            }
+          
+        </style>
+
+    @using (Html.BeginForm())
+    {
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <section class="login-info">
+            <div class="container ">
+                <div class="row main ">
+                    <div class="form-header">
+                        <h1 class="text-center"> Giriş formu </h1>
+                    </div>
+                    <div class="main-content">
+                        @Html.ValidationSummary(false)
+                        @if (ViewBag.SetLink != null)
+                        {
+                            <a href="@ViewBag.SetLink" class="btn btn-primary">Activate</a>
+                        }
+                        <div class="input-group ">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
+
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Şifreniz", type = "password" })
+                        </div>
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-danger btn-lg btn-block login-button">
+                                <span class="glyphicon glyphicon-log-in"></span> Giriş
+                            </button>
+                            <a href="/Home/Register" class="btn btn-default btn-lg btn-block login-button">
+                                <span class="glyphicon glyphicon-registration-mark"></span>Üye ol
+                            </a>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    }
+
+</div>

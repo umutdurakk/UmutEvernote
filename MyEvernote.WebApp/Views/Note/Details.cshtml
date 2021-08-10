@@ -1,0 +1,57 @@
+﻿@model MyEvernote.Entities.Note
+
+@{ ViewBag.Title = "Not Detay"; }
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>@ViewBag.Title</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h4>Not</h4>
+        <hr />
+        <div class="card" style="width: 100rem;">
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>@Html.DisplayNameFor(model => model.Category.Title)   : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Category.Title)
+                    </h5>
+
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b> @Html.DisplayNameFor(model => model.Title)  : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Title)
+
+                </li>
+
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b> @Html.DisplayNameFor(model => model.Text)  : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Text)
+
+                </li>
+
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>  @Html.DisplayNameFor(model => model.IsDraft)  : </b>&nbsp;&nbsp;&nbsp;   @Html.DisplayFor(model => model.IsDraft)
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>  @Html.DisplayNameFor(model => model.LikeCount)  : </b>&nbsp;&nbsp;&nbsp;   @Html.DisplayFor(model => model.LikeCount)
+                </li>
+                </lu>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <p>
+                @Bootstrap.LinkButton("/Note/Edit/" + Model.Id, "warning", string.Empty, string.Empty, "edit", " Düzenle")
+                @Bootstrap.LinkButton("/Note/Index", "default", string.Empty, string.Empty, "arrow-left", " Geri Dön!")
+            </p>
+        </div>
+    </div>
+</div>

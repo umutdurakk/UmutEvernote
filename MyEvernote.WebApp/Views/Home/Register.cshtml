@@ -1,0 +1,117 @@
+﻿@using MyEvernote.Entities.ValueObjects
+@model RegisterViewModel
+@{
+    ViewBag.Title = "Kayıt";
+    Layout = null;
+}
+
+<link href="~/Content/Login-Register.css" rel="stylesheet" />
+<link href="~/Content/validation-summary.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<head>
+    <style>
+        .validation-summary-errors {
+
+            background-color: rgba(0, 158, 223,0.55);
+           
+        }
+        .input-group-addon {
+            color: rgba(0, 158, 223,0.55);
+            font-size: 17px;
+        }
+    </style>
+</head>
+
+<div class="bg-image"
+     style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Others/images/91.jpg');
+       height: 100vh">
+    @using (Html.BeginForm())
+    {
+        <br /><br /><br /><br />
+        
+        <section class="login-info card">
+            <div class="container">
+                <div class="row main">
+                    <div class="form-header">
+                        <h1 class="text-center ">Kayıt formu </h1>
+                    </div>
+                    <div class="main-content">
+
+                        @Html.ValidationSummary(false)
+
+                        <div class="input-group ">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.Name, new
+                            {
+                                @class = "form-control",
+                           placeholder = "İsim"
+                            })
+
+                        </div>
+                        <div class="input-group ">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.Surname, new
+                            {
+                                @class = "form-control",
+                           placeholder = "Soyisim"
+                            })
+
+                        </div>
+
+                        <div class="input-group ">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.Username, new
+                            {
+                                @class = "form-control",
+                           placeholder = "Kullanıcı Adı"
+                            })
+
+                        </div>
+
+                        <div class="input-group ">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.Email, new
+                            {
+                                @class = "form-control",
+                           placeholder = "E-posta adresiniz"
+                            })
+
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+
+                            @Html.TextBoxFor(model => model.Password, new
+                            {
+                                @class = "form-control",
+                           placeholder = "Şifreniz",
+                                type = "password"
+                            })
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+                            @Html.TextBoxFor(model => model.RePassword, new
+                            {
+                                @class = "form-control",
+                           placeholder = "tekrar-Şifre",
+                                type = "password"
+                            })
+                        </div>
+
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-info btn-lg btn-block login-button">Kayıt ol</button>
+                            <a href="/Home/Login" class="btn btn-default btn-lg btn-block login-button">
+                                Geri Dön
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    }
+
+</div>  

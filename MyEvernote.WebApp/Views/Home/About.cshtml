@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "About";
+}
+
+<head>
+    <style>
+        .thumbnail {
+            height: 360px;
+        }
+
+        .ratings .button {
+            color: #d17581;
+        }
+
+            .ratings .button:hover {
+                color: #d17581;
+            }
+
+        hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .caption {
+            height: 175px;
+        }
+        
+    </style>
+
+</head>
+
+
+
+    <!-- Page Content -->
+    <div class="container ">
+        <div class="row">
+
+            @*Kategoriler*@
+            <div class="col-md-3">
+                @Html.Partial("_PartialCategories")
+            </div>
+
+            <div class="col-md-7 col-md-offset-1">
+
+                <div class="row">
+
+                    <h2 class="text-center">
+                        Başlık
+                    </h2>
+                    <hr />
+                    <img src="~/NoteImages/atatürk.jpg" class="center-block img-responsive img-rounded img-thumbnail" alt="Alternate Text" />
+                    <hr />
+                    <div class="text-center">
+                        <h3>İSTİKLÂL MARŞI</h3>
+                        <b> Korkma, sönmez bu şafaklarda yüzen al sancak;</b><br />
+                        <b> Sönmeden yurdumun üstünde tüten en son ocak.</b><br />
+                        <b> O benim milletimin yıldızıdır, parlayacak;</b><br />
+                        <b> O benimdir, o benim milletimindir ancak.</b><br />
+                        <br />
+
+                        <b> Çatma, kurban olayım çehreni ey nazlı hilâl!</b><br />
+                        <b> Kahraman ırkıma bir gül… ne bu şiddet bu celâl?</b><br />
+                        <b> Sana olmaz dökülen kanlarımız sonra helâl,</b><br />
+                        <b> Hakkıdır, Hakk’a tapan, milletimin istiklâl.</b><br />
+                        <br />
+                        <b> Ben ezelden beridir hür yaşadım, hür yaşarım.</b><br />
+                        <b>Hangi çılgın bana zincir vuracakmış? Şaşarım!</b><br />
+                        <b> Kükremiş sel gibiyim; bendimi çiğner, aşarım;</b><br />
+                        <b> Yırtarım dağları, enginlere sığmam, taşarım.</b><br />
+                        <br />
+                        <b> Garb’ın âfâkını sarmışsa çelik zırhlı duvar;</b><br />
+                        <b>Benim iman dolu göğsüm gibi serhaddim var.</b><br />
+                        <b> Ulusun, korkma! Nasıl böyle bir îmânı boğar,</b><br />
+                        <b>"Medeniyet!" dediğin tek dişi kalmış canavar?</b><br />
+                        <br />
+                        <b>Arkadaş! Yurduma alçakları uğratma sakın;</b><br />
+                        <b> Siper et gövdeni, dursun bu hayâsızca akın.</b><br />
+                        <b> Doğacaktır sana va’dettiği günler Hakk’ın…</b><br />
+                        <b> Kim bilir, belki yarın… belki yarından da yakın.</b><br />
+
+                        <h4>-Mehmet Akif Ersoy</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section footer{
+        @Html.Partial("_PartialFooter")
+    }

@@ -1,0 +1,62 @@
+﻿@model MyEvernote.Entities.Note
+
+@{ ViewBag.Title = "Notu Kaldır"; }
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>@ViewBag.Title</h2>
+        <h3>Silmek istediğinize emin misiniz?</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-3">
+        <h4>Not</h4>
+        <hr />
+        <div class="card" style="width: 100rem;">
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>@Html.DisplayNameFor(model => model.Category.Title)   : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Category.Title)
+                    </h5>
+
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b> @Html.DisplayNameFor(model => model.Title)  : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Title)
+
+                </li>
+
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b> @Html.DisplayNameFor(model => model.Text)  : </b>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Text)
+
+                </li>
+
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>  @Html.DisplayNameFor(model => model.IsDraft)  : </b>&nbsp;&nbsp;&nbsp;   @Html.DisplayFor(model => model.IsDraft)
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="text-center ">
+                        <b>  @Html.DisplayNameFor(model => model.LikeCount)  : </b>&nbsp;&nbsp;&nbsp;   @Html.DisplayFor(model => model.LikeCount)
+                </li>
+            </lu>
+         </div>
+                @using (Html.BeginForm())
+                {
+                     @Html.AntiForgeryToken()
+
+                            <div class="form-actions no-color">
+                                @Bootstrap.Button("danger", string.Empty, "submit", "remove", " Kaldır")
+                                @Bootstrap.LinkButton("/Note/Index", "default", string.Empty, string.Empty, "arrow-left", " Geri Dön!")
+                            </div>
+                 }
+
+    </div>
+</div>

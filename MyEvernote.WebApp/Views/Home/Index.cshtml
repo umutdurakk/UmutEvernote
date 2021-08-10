@@ -1,0 +1,191 @@
+﻿@using MyEvernote.Entities
+@model List<Note>
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <style>
+        .thumbnail {
+            height: 360px;
+            background-color: #f8f8f8;
+            color: #e7e7e7;
+            border: 1px solid rgba(0, 0,0,0.45);
+        }
+    
+
+        .ratings .button {
+            color: #d17581;
+        }
+
+            .ratings .button:hover {
+                color: #d17581;
+            }
+
+        hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .caption {
+            height: 175px;
+        }
+        .a {
+            background-color: #f8f8f8;
+            align-content: center;
+        }
+        .b {
+            color: #333;
+        }
+    </style>
+</head>
+<body class="a" align="center">
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+
+            @*Kategoriler*@
+            <div class="col-md-3">
+                @Html.Partial("_PartialCategories")
+            </div>
+
+            <div class="col-md-9">
+                @*Carousel*@
+                <div class="row carousel-holder">
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="~/NoteImages/a.jpg" height="30" width="30" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="~/NoteImages/d.jpg" height="30" width="30" alt="">
+                                </div>
+
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                @*Yazılar*@
+                <div class="row">
+                    @foreach (Note note in Model)
+                    {
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="~/NoteImages/b.jpg" alt="@note.Title" height="10" width="10">
+                                <div class="caption">
+                                    <h4>
+                                        <a href="#">@note.Title</a>
+                                    </h4>
+                                    <h6 class="text-right">
+                                        <span class="glyphicon glyphicon-user"></span>@note.Owner.Username<br />
+
+                                        <span class="glyphicon glyphicon-time"></span>@note.ModifiedOn.ToString("dd.MM.yy.HH:mm")
+
+                                    </h6>
+
+                                    @if (string.IsNullOrEmpty(note.Text) == false && note.Text.Length > 70)
+                                    {
+                                        <p class="b">@(note.Text.Substring(0,70)+ "...")    </p>
+                                        <p class="pull-right">
+                                            <a href="#" data-toggle="modal" data-target="#modal_notedetail"
+                                               data-note-id="@note.Id" class="btn btn-default btn-sm">
+                                            devamı<span class="glyphicon glyphicon-chevron-right"></span></a>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="b">@note.Text</p>
+                                    }
+
+                                </div>
+                                <div>
+                                    <hr />
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">
+                                        <button class="btn btn-sm" data-toggle="modal" data-target="#modal_comment"
+                                                data-note-id="@note.Id">
+                                            <span class="glyphicon glyphicon-comment "></span>Yorumlar
+                                        </button>
+                                    </p>
+                                    <p>
+                                        <button class="btn btn-sm" type="button">
+                                            <span class="glyphicon glyphicon-star-empty"></span>@note.LikeCount
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @section footer{
+        @Html.Partial("_PartialFooter")
+    }
+
+    @Bootstrap.ModalPopup(id: "modal_comment", title: "Yorumlar")
+    @Bootstrap.ModalPopup(id: "modal_notedetail", title: "Not Detayı")
+<script>
+        $(function () {
+            $('#modal_comment').on('show.bs.modal', function (e) {
+
+                var btn = $(e.relatedTarget);
+                var noteid = btn.data("note-id");
+
+                $("#modal_comment_body").load("/Comment/ShowNoteComments/" + noteid);
+            })
+
+        });
+
+
+        function doComment(btn, e, commentid, spanid) {
+
+            var button = $(btn);
+
+            var mode = button.data("edit-mode");
+            if (e === "edit_clicked") {
+                if (!mode) {
+
+                    button.data("edit-mode", true);
+                    button.removeClass("btn-warning");
+                    button.addClass("btn-success");
+                    var btnspan = button.find("span");
+                    btnspan.removeClass("glyphicon-edit");
+                    btnspan.addClass("glyphicon-ok");
+
+                    $(spanid).attr("contenteditable", true);
+
+                }
+                else {
+                    button.data("edit-mode", false);
+                    button.removeClass("btn-success");
+                    button.addClass("btn-warning");
+                    var btnspan = button.find("span");
+                    btnspan.addClass("glyphicon-edit");
+                    btnspan.removeClass("glyphicon-ok");
+
+                    $(spanid).attr("contenteditable", false);
+                }
+            }
+        }
+
+       
+ </script>
+
+</body>
