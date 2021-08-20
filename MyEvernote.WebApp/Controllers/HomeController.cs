@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using MyEvernote.BusinessLayer;
 using MyEvernote.BusinessLayer.Results;
+using MyEvernote.Common.Helpers;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
@@ -22,12 +24,22 @@ namespace MyEvernote.WebApp.Controllers
         private NoteManager noteManager = new NoteManager();
         private CategoryManager categoryManager = new CategoryManager();
         EvernoteUserManager evernoteUserManager = new EvernoteUserManager();
+        LikedManager likedManager = new LikedManager();
 
-        
         public ActionResult Index()
         {
-           
-            return View(noteManager.ListQueryable().OrderByDescending(x => x.ModifiedOn).ToList());
+            //if (CurrentSession.User!=null)
+            //{
+            //    var notes = likedManager.ListQueryable().Include("LikedUser")
+            //     .Include("Note").Where(x => x.LikedUser.Id ==
+            // CurrentSession.User.Id).Select(x => x.Note).Include("Category").Include("Owner")
+            //     .OrderByDescending(x => x.ModifiedOn);
+                
+
+            //    return View(notes.ToList());
+            //}
+
+            return View(noteManager.ListQueryable().Where(x => x.IsDraft == false).OrderByDescending(x => x.ModifiedOn).ToList());
             //return View(nm.GetAllNoteQueryble().OrderByDescending(x => x.ModifiedOn).ToList());
 
         }
@@ -37,14 +49,26 @@ namespace MyEvernote.WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            Category cat = categoryManager.Find(x=>x.Id==id.Value);
-            if (cat == null)
-            {
-                return HttpNotFound();
-            }
 
-            return View("Index", cat.Notes.OrderByDescending(x => x.ModifiedOn).ToList());
+            // Category cat = categoryManager.Find(x=>x.Id==id.Value);
+            // if (cat == null)
+            //{
+            // return HttpNotFound();
+            //  }
+
+            List<Note> notes = noteManager.ListQueryable().Where(x => x.IsDraft == false && x.CategoryId == id).OrderByDescending(
+                x => x.ModifiedOn).ToList() ;
+            return View("Index", notes); 
+        }
+        public ActionResult Search(string searchString)
+        {
+            List<Note> notes = noteManager.ListQueryable().ToList();
+            if (searchString =="")
+            {
+                return View("Index", noteManager.ListQueryable().Where(x => x.IsDraft == false).OrderByDescending(x => x.ModifiedOn).ToList());
+            }
+            
+            return View("Index", notes.Where(x=>x.Title.ToLower().Contains(searchString.ToLower())).ToList());
         }
 
         public ActionResult MostLiked()
@@ -58,7 +82,7 @@ namespace MyEvernote.WebApp.Controllers
 
             return View();
         }
-
+        [Auth]
         public ActionResult ShowProfile()
         { 
             BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
@@ -76,6 +100,7 @@ namespace MyEvernote.WebApp.Controllers
                         
             return View(res.Result);
         }
+        [Auth]
         public ActionResult EditProfile()
         {  
             BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
@@ -95,6 +120,7 @@ namespace MyEvernote.WebApp.Controllers
         }
        
         [HttpPost]
+        [Auth]
         public ActionResult EditProfile(EvernoteUser model, HttpPostedFileBase ProfileImage)
         {
             ModelState.Remove("ModifiedUsername");
@@ -128,7 +154,7 @@ namespace MyEvernote.WebApp.Controllers
             }
             return View(model);
         }
-
+        [Auth]
         public ActionResult DeleteProfile()
         {
    
@@ -246,14 +272,134 @@ namespace MyEvernote.WebApp.Controllers
             //kullanıcı aktivasyonu sağlanacak..
 
         }
+        [Auth]
         public ActionResult Logout()
         {
             
             Session.Clear();
             return RedirectToAction("Index");
         }
+        public ActionResult NoteSh(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Note note = noteManager.Find(x => x.Id == id);
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+            
+            return View(note);
+        }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+        public ActionResult Remember()
+        {
+
+            return View();
+            
+
+        }
+       
+        [HttpPost]
+        public ActionResult Remember(string email)
+        {
+            if (email == null)
+            {
+                ErrorViewModel errorObj = new ErrorViewModel()
+                {
+                    Title = "Geçersiz işlem",
+                };
+
+                return View("Error", errorObj);
+            }
+            EvernoteUser usser = evernoteUserManager.Find(x => x.Email == email);
+            if (usser == null)
+            {
+                ErrorViewModel errorObj = new ErrorViewModel()
+                {
+                    Title = "Geçersiz işlem",
+                };
+
+                return View("Error", errorObj);
+            }
+            evernoteUserManager.Rememberpass(usser);
+            WarningViewModel notifyObj = new WarningViewModel()
+            {
+                Title = "E-postanızı Kontrol edin.",
+                RedirectingUrl = "/Home/Login",
+
+            };
+            notifyObj.Items.Add("Hesabınızın şifresini değiştirmek için e-postanızı kontrol edin.");
+
+            return View("Warning", notifyObj);
+        }
+       
+        public ActionResult Change(Guid id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EvernoteUser uss = evernoteUserManager.Find(x => x.ActivateGuid == id);
+            if (uss == null)
+            {
+                return HttpNotFound();
+            }
+            ChangeViewModel a = new ChangeViewModel();
+            
+            Session["guidid"] = id;
+            return View();
+            
+
+        }
+        [HttpPost]
+        public ActionResult Change(ChangeViewModel model)
+        {
+            model.getid = (Guid)Session["guidid"];
+            Session["guidid"] = null;
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.Changes(model);
+            if (res.Errors.Count > 0)
+            {
+                res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                return View();
+            }
+            OkViewModel notifyObj = new OkViewModel()
+            {
+                Title = "şifre Değiştirildi.",
+                RedirectingUrl = "/Home/Login",
+
+            };
+
+            notifyObj.Items.Add("Hesabınızın şifresi değiştirildi.");
+
+            return View("Ok", notifyObj);
+            
+
+        }
+        public ActionResult Contact()
+        {
+
+            return View();
 
 
+        }
 
+        [HttpPost]
+        public ActionResult Contact(ContactViewModel conn)
+        {
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.Contacts(conn);
+            if (res.Errors.Count > 0)
+            {
+                res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                return View();
+            }
+            return View();
+        }
     }
 }

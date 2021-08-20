@@ -6,7 +6,7 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row text-center">
         <h2>@ViewBag.Title</h2>
         <hr />
     </div>
@@ -17,9 +17,10 @@
             <img src="~/images/@Model.ProfileImageFilename" class="img-circle" width="128" height="128" />
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-10 text-center">
             <h3>@(Model.Name + " " + Model.Surname)</h3>
             <br />
+            
             <h5><b>@Html.DisplayNameFor(model => model.Username) : </b>@Model.Username</h5>
             <h5><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</h5>
             <h5><b>Admin : </b>

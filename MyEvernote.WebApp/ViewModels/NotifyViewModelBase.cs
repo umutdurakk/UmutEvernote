@@ -21,7 +21,7 @@ namespace MyEvernote.WebApp.ViewModels
             Title = "Geçersiz işlem";
             IsRedirecting= true;
             RedirectingUrl = "/Home/Index";
-            RedirectingTimeout = 10000;
+            RedirectingTimeout = 5000;
             Items = new List<T>();
         }
     }

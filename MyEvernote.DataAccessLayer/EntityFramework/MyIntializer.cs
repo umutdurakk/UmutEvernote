@@ -90,7 +90,7 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
                     {
                         Title = FakeData.TextData.GetAlphabetical(FakeData.NumberData.GetNumber(5, 25)),
                         Text = FakeData.TextData.GetSentences(FakeData.NumberData.GetNumber(1, 3)),
-
+                        NoteImageFilename = "Optimized-aslan.jpg",
                         IsDraft = false,
                         LikeCount = FakeData.NumberData.GetNumber(1, 9),
                         Owner = owner,

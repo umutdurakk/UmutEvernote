@@ -5,7 +5,7 @@
     List<Category> list = cm.List();
 }
 <style>
-    .thumbnail {
+    @*.thumbnail {
         height: 360px;
         background-color: #f8f8f8;
         color: #e7e7e7;
@@ -28,16 +28,7 @@
 
     .caption {
         height: 175px;
-    }
-
-    .a {
-        background-color: #f8f8f8;
-        align-content: center;
-    }
-
-    .b {
-        color: #333;
-    }
+    }s
     .dropdown-menu {
         background-color: #f8f8f8;
         color: slategray
@@ -45,37 +36,21 @@
     .list-group-item {
         background-color: #f8f8f8;
         color: slategray
-    }
+    }*@
+   
 </style>
+<body>
 
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-        @*<a href="/Home/Index" class="list-group-item "><span class="glyphicon glyphicon-arrow-right "></span>Tümü</a>*@
-        <li class="dropdown">
-            <a href="/Home/Index" class="list-group-item" data-toggle="dropdown" role="button"
-               aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                Kategoriler
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="/Home/Index"><span class="glyphicon glyphicon-arrow-right"></span>Tümü</a>
-                </li>
-                <li role="separator" class="divider"></li>
-                @foreach (Category cat in list)
-                {
-                    @*<a href="/Home/ByCategory/@cat.Id" title="@cat.Description" class="list-group-item">
-                            <span class="glyphicon glyphicon-arrow-right"></span>@cat.Title
-                        </a>*@
-                    <li>
-                        <a href="/Home/ByCategory/@cat.Id"><span class="glyphicon glyphicon-arrow-right"></span>@cat.Title</a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                }
+    <p class="display-4">Kategoriler</p>
+    <div class="list-group">
+        <a href="@Url.Action("Index","Home")" class="list-group-item list-group-item-action "><i class="fa fa-th-list mr-2"></i>Tümü</a>
+        @foreach (Category cat in list)
+        {
+            <a href="/Home/ByCategory/@cat.Id" title="@cat.Description" class="list-group-item list-group-item-action "><i class="fa fa-th-list mr-2"></i>@cat.Title</a>
+        }
 
-            </ul>
-        </li>
-    </ul>
 
-</div>
+
+
+    </div>
+</body>

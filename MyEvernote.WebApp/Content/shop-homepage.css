@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+   /* padding-top: 70px;*/ /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
 .slide-image {
@@ -41,7 +41,10 @@ body {
 
 .thumbnail {
     padding: 0;
-    
+     height: 360px;
+    background-color: #f8f8f8;
+    color: #e7e7e7;
+    border: 1px solid rgba(0, 0,0,0.45);
 }
 
 .thumbnail .caption-full {
@@ -51,4 +54,27 @@ body {
 
 footer {
     margin: 50px 0;
+}
+
+.ratings .button {
+    color: #d17581;
+}
+
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.caption {
+    height: 175px;
+}
+
+.ass {
+    background-color: #f8f8f8;
+    align-content: center;
+}
+
+.bss {
+    color: #333;
 }

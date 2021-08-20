@@ -12,6 +12,7 @@ using MyEvernote.WebApp.Filters;
 
 namespace MyEvernote.WebApp.Controllers
 {   [Auth]
+    [AuthAdmin]
     public class CategoryController : Controller
     {
         CategoryManager categoryManager = new CategoryManager();

@@ -10,8 +10,8 @@ namespace MyEvernote.Entities.ValueObjects
     public class LoginViewModel
     {
             [DisplayName("Kullanıcı adı"),
-            Required(ErrorMessage = "{0} alanı boş Geçilmez")
-            ,StringLength(25,ErrorMessage = "{0}  max 25 karakter içermeli")]
+            Required(ErrorMessage = "{0} alanı boş Geçilmez"),
+            StringLength(25,ErrorMessage = "{0}  max 25 karakter içermeli")]
         public string Username { get; set; }
 
             [DisplayName("Şifre"),

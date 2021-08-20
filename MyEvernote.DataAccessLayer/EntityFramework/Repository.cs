@@ -49,6 +49,8 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
 
             return Save();
         }
+        
+
 
         public int Update(T obj)
         {
@@ -62,6 +64,11 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
                 o.ModifiedUserName = App.Common.GetCurrentUsername();//işlem yapan kullanıcı adı
                 
             }
+            return Save();
+        }
+        public int LikeUpdate(T obj)
+        {
+            
             return Save();
         }
 

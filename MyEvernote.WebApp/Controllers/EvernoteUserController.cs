@@ -13,6 +13,7 @@ using MyEvernote.WebApp.Filters;
 
 namespace MyEvernote.WebApp.Controllers
 {[Auth]
+[AuthAdmin]
     public class EvernoteUserController : Controller
     {
         private EvernoteUserManager evernoteUserManager = new EvernoteUserManager();

@@ -6,19 +6,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MyEvernote.Entities
 {
     [Table("Notes")]
     public class Note : MyEntityBase
     {
-        [DisplayName("Not başlığı"),Required, StringLength(60)]
+        [DisplayName("Not Başlığı"),Required, StringLength(60)]
         public string Title { get; set; }
 
         [DisplayName("Not Metni"), Required, StringLength(2000)]
         public string Text { get; set; }
 
-       [ DisplayName("Taslak")]
+        [Required, StringLength(30), ScaffoldColumn(false), DisplayName("Kullanıcı Resim")]
+        public string NoteImageFilename { get; set; }//images/user
+
+        [ DisplayName("Taslak")]
         public bool IsDraft { get; set; }
 
         [DisplayName("Beğenilme")]

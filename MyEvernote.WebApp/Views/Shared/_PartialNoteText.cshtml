@@ -3,17 +3,14 @@
 @model Note
 
 <div class="row">
-    <div class="col-md-12">
-        <h3 class="text-center">
+    <div class="col-md-12 ">
+        <h4 class="text-center">
             @Model.Title
-        </h3>
-    </div>
-    <div class="col-md-12">
-        <hr />
+        </h4>
     </div>
     <div class="col-md-12 text-right">
-        <span class="glyphicon glyphicon-user"></span> @Model.Owner.Username<br />
-        <span class="glyphicon glyphicon-time"></span> @Model.ModifiedOn
+        <i class="fa fa-user"></i> @Model.Owner.Username<br />
+        <i class="fa fa-clock-o"></i> @Model.ModifiedOn
     </div>
     <div class="col-md-12">
         <hr />
@@ -22,5 +19,28 @@
         <p class="text-justify">
             @Model.Text
         </p>
+    </div>
+</div>
+
+
+<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampletitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampletitle">
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria--label="Close">
+                    <i aria-hidden="true">&times;</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>

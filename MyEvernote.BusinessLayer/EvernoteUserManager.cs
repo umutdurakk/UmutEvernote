@@ -55,9 +55,9 @@ namespace MyEvernote.BusinessLayer
                 {
                    res.Result= Find(x => x.Email == data.Email && x.Username == data.Username);
 
-                    string siteUri = ConfigHelper.Get < string>("SiteRootUri");
+                    string siteUri = ConfigHelper.Get <string>("SiteRootUri");
                     string activateUri = $"{siteUri}/Home/UserActivate/{res.Result.ActivateGuid}";
-                    string body = $"Merhaba {res.Result.Username};<br><br> Hesabınızı aktifleştirmek için <a href ='{activateUri}'" +  "target='_blank'>tıklayınız</a>.";
+                    string body = $"Merhaba {res.Result.Username};<br><br> Hesabınızı aktifleştirmek için <a href ='{activateUri}'" + "target='_blank'>tıklayınız</a>.";
 
                     MailHelper.SendMail(body,res.Result.Email,"MyEvernote Hesap Aktifleştirme");
                 
@@ -195,18 +195,37 @@ namespace MyEvernote.BusinessLayer
             NoteManager noteManager = new NoteManager();
             LikedManager likedManager = new LikedManager();
             CommentManager commentManager = new CommentManager();
-            //foreach (Note note in user.Notes.ToList())
-            //{    
-            //    noteManager.Delete(note);
-            //}
-            //foreach (Comment com in user.Comments.ToList())
-            //{
-            //    commentManager.Delete(com);
-            //}
-            foreach (Liked li in user.Likes.ToList())
+           
+            if (user.Notes.ToList()!=null)
             {
-                likedManager.Delete(li);
+                foreach (Note note in user.Notes.ToList())
+                {
+                      noteManager.Delete(note);
+                    
+                }
+
             }
+            
+            if (user.Comments.ToList()!=null)
+            {
+             foreach (Comment com in user.Comments.ToList())
+                {   
+                     commentManager.Delete(com);
+   
+                }  
+            }
+            if (user.Likes.ToList()!=null)
+            {  
+                foreach (Liked li in user.Likes.ToList())
+                {
+                
+                 likedManager.Delete(li);
+                
+               
+                }
+
+            }
+            
             return base.Delete(user);
         }
          
@@ -278,6 +297,57 @@ namespace MyEvernote.BusinessLayer
                     res.AddError(ErrorMessageCode.UserCouldNotInserted, "Profil güncellenemedi.");
                 }
                 return res;
+        }
+
+        public BusinessLayerResult<EvernoteUser> Rememberpass(EvernoteUser usser)
+        {
+            BusinessLayerResult<EvernoteUser> res = new BusinessLayerResult<EvernoteUser>();
+            res.Result=Find(x => x.Email == usser.Email && x.Username == usser.Username);
+            string siteUri = ConfigHelper.Get<string>("SiteRootUri");
+            string activateUri = $"{siteUri}/Home/Change/{res.Result.ActivateGuid}";
+            string body = $"Merhaba {res.Result.Username};<br><br> Hesabınızın şifresini değiştirmek için  için <a href ='{activateUri}'" + "target='_blank'>tıklayınız</a>.";
+
+            MailHelper.SendMail(body, res.Result.Email, "MyEvernote  Şifre değiştirme.");
+            return res;
+        }
+
+        public BusinessLayerResult<EvernoteUser> Changes(ChangeViewModel data)
+        {
+
+            BusinessLayerResult<EvernoteUser> res = new BusinessLayerResult<EvernoteUser>();
+            res.Result = Find(x => x.Username == data.Username && x.Email == data.Email && x.ActivateGuid == data.getid);
+
+            if (res.Result != null)
+            {  
+                    res.Result.Password = data.Password;
+
+            }
+            else
+            {
+                res.AddError(ErrorMessageCode.ActivateIdDoesNotExists, "kullanıcı bulunamadı.");
+            }
+            if (base.Update(res.Result) == 0)
+            {
+                res.AddError(ErrorMessageCode.ProfilCouldNotUpdate, "Profil güncellenemedi.");
+            }
+            return res;
+        }
+
+        public BusinessLayerResult<EvernoteUser> Contacts(ContactViewModel conn)
+        {
+            BusinessLayerResult<EvernoteUser> res = new BusinessLayerResult<EvernoteUser>();
+            res.Result = Find(x => x.Email == conn.Email && x.Username == conn.Username);
+            if (res.Result== null )
+            {
+                     res.AddError(ErrorMessageCode.UserNotFound, "Kullanıcı kayıtlı değil.");
+                
+                return res;
+            }
+
+            string body =( $"kullanıcı adı " + conn.Username + "\n  E-posta " + conn.Email  + "\n  Mesaj: " + conn.Text);
+
+            MailHelper.SendMail(body, "adavsevernote@outlook.com", "Şikayet/İstek");
+            return res;
         }
 
     }

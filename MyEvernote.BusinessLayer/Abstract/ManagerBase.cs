@@ -22,12 +22,10 @@ namespace MyEvernote.BusinessLayer.Abstract
         {
             return repo.Find(where);
         }
-
         public virtual int Insert(T obj)
         {
             return repo.Insert(obj);
         }
-
         public virtual List<T> List()
         {
             return repo.List();
@@ -51,6 +49,10 @@ namespace MyEvernote.BusinessLayer.Abstract
         public virtual int Update(T obj)
         {
             return repo.Update(obj);
+        }
+        public virtual int LikeUpdate(T obj)
+        {
+            return repo.LikeUpdate(obj);
         }
     }
 }

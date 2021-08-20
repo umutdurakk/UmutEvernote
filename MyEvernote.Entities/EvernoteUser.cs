@@ -27,7 +27,7 @@ namespace MyEvernote.Entities
         [DisplayName("Şifre"),Required, StringLength(25)]
         public string Password { get; set; }
 
-        [Required, StringLength(30),ScaffoldColumn(false)]
+        [Required, StringLength(30),ScaffoldColumn(false), DisplayName("Kullanıcı Resim")]
         public string ProfileImageFilename { get; set; }//images/user
 
         [DisplayName("Is Active") ]       

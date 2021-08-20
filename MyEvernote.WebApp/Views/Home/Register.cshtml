@@ -1,117 +1,122 @@
 ﻿@using MyEvernote.Entities.ValueObjects
 @model RegisterViewModel
+
 @{
-    ViewBag.Title = "Kayıt";
-    Layout = null;
+    ViewBag.Title = "MyEvernote - Kayıt Sayfası";
 }
 
-<link href="~/Content/Login-Register.css" rel="stylesheet" />
+<style>
+    .vertical-strech {
+        height: 92.4vh;
+    }
+
+    .validation-summary-valid {
+    }
+
+    .validation-summary-errors {
+    }
+</style>
+
 <link href="~/Content/validation-summary.css" rel="stylesheet" />
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<head>
-    <style>
-        .validation-summary-errors {
 
-            background-color: rgba(0, 158, 223,0.55);
-           
-        }
-        .input-group-addon {
-            color: rgba(0, 158, 223,0.55);
-            font-size: 17px;
-        }
-    </style>
-</head>
+<div class="row mr-0">
+    <div class="col-md-12 p-0">
+        <section class="login-block p-4 vertical-strech">
 
-<div class="bg-image"
-     style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Others/images/91.jpg');
-       height: 100vh">
-    @using (Html.BeginForm())
-    {
-        <br /><br /><br /><br />
-        
-        <section class="login-info card">
-            <div class="container">
-                <div class="row main">
-                    <div class="form-header">
-                        <h1 class="text-center ">Kayıt formu </h1>
-                    </div>
-                    <div class="main-content">
-
-                        @Html.ValidationSummary(false)
-
-                        <div class="input-group ">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-                            @Html.TextBoxFor(model => model.Name, new
-                            {
-                                @class = "form-control",
-                           placeholder = "İsim"
-                            })
-
+            <div class="row">
+                <div class="col-md-4 login-sec">
+                    <h2>Üye Ol</h2>
+                    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "login-form" }))
+                    {
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            @Html.TextBoxFor(model => model.Name, new { placeholder = "lütfen  adınızı giriniz", @class = "form-control" })
                         </div>
-                        <div class="input-group ">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-                            @Html.TextBoxFor(model => model.Surname, new
-                            {
-                                @class = "form-control",
-                           placeholder = "Soyisim"
-                            })
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            @Html.TextBoxFor(model => model.Surname, new { placeholder = "lütfen soyadınızı giriniz", @class = "form-control" })
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            @Html.TextBoxFor(model => model.Username, new { placeholder = "lütfen kullanıcı adınızı giriniz", @class = "form-control" })
                         </div>
 
-                        <div class="input-group ">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-                            @Html.TextBoxFor(model => model.Username, new
-                            {
-                                @class = "form-control",
-                           placeholder = "Kullanıcı Adı"
-                            })
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            @Html.TextBoxFor(model => model.Email, new { placeholder = "lütfen e-posta adresinizi giriniz", @class = "form-control" })
                         </div>
 
-                        <div class="input-group ">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-                            @Html.TextBoxFor(model => model.Email, new
-                            {
-                                @class = "form-control",
-                           placeholder = "E-posta adresiniz"
-                            })
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            @Html.PasswordFor(model => model.Password, new { placeholder = "lütfen şifrenizi giriniz", @class = "form-control" })
                         </div>
 
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-
-                            @Html.TextBoxFor(model => model.Password, new
-                            {
-                                @class = "form-control",
-                           placeholder = "Şifreniz",
-                                type = "password"
-                            })
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            @Html.PasswordFor(model => model.RePassword, new { placeholder = "lütfen şifrenizi tekrar giriniz", @class = "form-control" })
                         </div>
 
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-                            @Html.TextBoxFor(model => model.RePassword, new
-                            {
-                                @class = "form-control",
-                           placeholder = "tekrar-Şifre",
-                                type = "password"
-                            })
-                        </div>
+                        <div class="form-check">
+                            @*<label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                    <small>Remember Me</small>
+                </label>*@
+                            <button type="submit" class="btn btn-login float-left">Kayıt</button>
 
-                        <div class="form-group ">
-                            <button type="submit" class="btn btn-info btn-lg btn-block login-button">Kayıt ol</button>
-                            <a href="/Home/Login" class="btn btn-default btn-lg btn-block login-button">
-                                Geri Dön
-                            </a>
                         </div>
-
+                        <div class="clearfix"></div>
+                        <div class="form-group mt-4">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false)
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-8 banner-sec">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <<div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block img-fluid" src="~/NoteImages/Carousel.jpg" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                        <h2>This is Heaven</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid" src="~/NoteImages/Gamar.jpg" alt="First slide" >
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                        <h2>This is Heaven</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+    </div>
+</div>
 
-
-    }
-
-</div>  
+<link href="~/Content/new-login-style.css" rel="stylesheet" />
